@@ -29,45 +29,6 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-
-" Syntastic local linter support
-
-let g:syntastic_javascript_checkers = []
-
-function CheckJavaScriptLinter(filepath, linter)
-	if exists('b:syntastic_checkers')
-		return
-	endif
-	if filereadable(a:filepath)
-		let b:syntastic_checkers = [a:linter]
-		let {'b:syntastic_' . a:linter . '_exec'} = a:filepath
-	endif
-endfunction
-
-function SetupJavaScriptLinter()
-	let l:current_folder = expand('%:p:h')
-	let l:bin_folder = fnamemodify(syntastic#util#findFileInParent('package.json', l:current_folder), ':h')
-	let l:bin_folder = l:bin_folder . '/node_modules/.bin/'
-	call CheckJavaScriptLinter(l:bin_folder . 'standard', 'standard')
-	call CheckJavaScriptLinter(l:bin_folder . 'eslint', 'eslint')
-endfunction
-
-autocmd FileType javascript call SetupJavaScriptLinter()
-let g:jsx_ext_required = 0 " Allow JSX in normal JS files
-noremap <C-l> :SyntasticCheck<CR>
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_written = 1
-let g:syntastic_check_on_wq = 0
-let g:vim_markdown_folding_disabled=0
-
-function! SyntasticCheckHook(errors)
-  if !empty(a:errors)
-    let g:syntastic_loc_list_height = min([len(a:errors), 10])
-  endif
-endfunction
-
 call vundle#end() 
 
 
