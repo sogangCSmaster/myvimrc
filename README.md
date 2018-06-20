@@ -7,3 +7,13 @@ copy .vimrc file
 vi .vimrc
 
 :PluginInstall
+
+
+
+# Or run script file
+./install.sh
+
+```
+cd myvimrc
+./install.sh
+```
